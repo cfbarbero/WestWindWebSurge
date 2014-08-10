@@ -197,6 +197,37 @@ namespace WebSurge
         }
 
 
+        public void AddDataPoint(myData d)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<myData>(this.AddDataPoint), new object[] { d });
+            }
+            else
+            {
+                chart1.Series[0].Points.AddXY(d.X, d.Y);
+            }
+        }
+        public class myData
+        {
+            public int X;
+            public int Y;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new Thread(new ParameterizedThreadStart(worker)).Start(new Action<myData>(this.AddDataPoint));
+        }
+        private void worker(object obj)
+        {
+            var _delegate = (Action<myData>)obj;
+            for (int x = 0; x < 50; x++)
+            {
+                _delegate(new myData { X = x, Y = 2 * x });
+                Thread.Sleep(1000);
+            }
+        }
+
         private void ButtonHandler(object sender, EventArgs e)
         {
 
