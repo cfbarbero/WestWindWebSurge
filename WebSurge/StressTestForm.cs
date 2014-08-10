@@ -209,7 +209,7 @@ namespace WebSurge
             }
         }
         public class myData
-        {
+        { 
             public int X;
             public int Y;
         }
